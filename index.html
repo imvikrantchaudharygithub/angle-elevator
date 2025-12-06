@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Angel Elevators | Vertical Luxury</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="global-bg">
+      <div class="bg-layer layer-one"></div>
+      <div class="bg-layer layer-two"></div>
+      <div class="bg-layer layer-grid"></div>
+    </div>
+
+    <div class="door-overlay" aria-hidden="true">
+      <div class="door-panel door-left">
+        <div class="door-reflection"></div>
+      </div>
+      <div class="door-panel door-right">
+        <div class="door-reflection"></div>
+      </div>
+      <div class="door-hud">
+        <div class="door-indicator">
+          <span class="indicator-dot"></span>
+          <span class="indicator-dot"></span>
+          <span class="indicator-dot"></span>
+        </div>
+        <p>Angel Elevators</p>
+        <span class="door-floor-label">Lobby</span>
+      </div>
+    </div>
+
+    <div class="elevator-rail">
+      <span>Lobby</span>
+      <div class="rail-track">
+        <div class="rail-progress"></div>
+      </div>
+      <span>Skydeck</span>
+    </div>
+    <div class="floor-panel" aria-live="polite">
+      <button class="panel-toggle" aria-expanded="false" aria-controls="floor-selector">
+        Select Floor
+      </button>
+      <div class="panel-display">
+        <span class="panel-floor">00</span>
+        <span class="panel-name">Lobby</span>
+      </div>
+      <div class="panel-dots">
+        <span class="panel-dot"></span>
+        <span class="panel-dot"></span>
+        <span class="panel-dot"></span>
+      </div>
+      <div class="floor-nav-buttons">
+        <button class="floor-nav-btn floor-up" aria-label="Go to previous floor">▲</button>
+        <button class="floor-nav-btn floor-down" aria-label="Go to next floor">▼</button>
+      </div>
+      <div class="floor-selector" id="floor-selector" hidden></div>
+    </div>
+
+    <header class="hero" data-floor="Lobby" data-floor-index="00" data-floor-name="Lobby">
+      <div class="floor-label">Floor 00 · Lobby Arrival</div>
+      <div class="hero-overlays">
+        <span class="scanline"></span>
+        <span class="scanline delayed"></span>
+        <span class="hero-axis axis-left"></span>
+        <span class="hero-axis axis-right"></span>
+        <div class="city-parallax">
+          <span class="city-layer layer-near"></span>
+          <span class="city-layer layer-mid"></span>
+          <span class="city-layer layer-far"></span>
+        </div>
+      </div>
+      <nav class="nav">
+        <div class="logo">Angel Elevators</div>
+        <div class="nav-links">
+          <a href="#deck-systems">Systems</a>
+          <a href="#deck-capsules">Capsules</a>
+          <a href="#stories">Stories</a>
+        </div>
+        <button class="cta ghost">Book Consultation</button>
+      </nav>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Hyper-future mobility</p>
+          <h1>
+            Elevators that feel like <span class="accent">levitation</span>
+            with cinematic calm.
+          </h1>
+          <p>
+            Angel crafts bespoke elevator ecosystems for ultra-luxury residences,
+            hospitals, and hospitality towers. Holographic decks, glass capsules,
+            whisper-silent drive systems.
+          </p>
+          <div class="hero-actions">
+            <button class="cta primary">Design my shaft</button>
+            <button class="cta ghost">Download dossier</button>
+          </div>
+          <div class="hero-metrics">
+            <div>
+              <span>25+</span>
+              <p>Cities serviced</p>
+            </div>
+            <div>
+              <span>99.6%</span>
+              <p>Uptime promised</p>
+            </div>
+            <div>
+              <span>0.5 – 3 m/s</span>
+              <p>Velocity spectrum</p>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-cab">
+            <div class="cab-sheen"></div>
+            <div class="cab-inner">
+              <p>Angel HoloCab™</p>
+              <span>Intelligent float mode</span>
+            </div>
+          </div>
+          <div class="hero-glow"></div>
+          <div class="hero-floor-tag">Lobby</div>
+          <div class="hero-aside">
+            <div>
+              <p class="label">Deck height</p>
+              <span>4.5 m</span>
+            </div>
+            <div>
+              <p class="label">Finish</p>
+              <span>Onyx / Glass</span>
+            </div>
+            <div>
+              <p class="label">Mode</p>
+              <span>Ultra Silent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-footnote">
+        <div>
+          <p class="label">Studios</p>
+          <span>Faridabad · Gurugram · Dubai</span>
+        </div>
+        <div>
+          <p class="label">Use-cases</p>
+          <span>Residence · Healthcare · Hospitality</span>
+        </div>
+        <div>
+          <p class="label">Response</p>
+          <span>Concept deck in 72 hrs</span>
+        </div>
+      </div>
+
+      <div class="hero-marquee">
+        <span>Hydraulic mastery</span>
+        <span>Capsule façades</span>
+        <span>Predictive care pods</span>
+        <span>Automotive lifts</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="simulator" data-floor="Immersive" data-floor-index="01" data-floor-name="Immersive Deck">
+        <div class="floor-label">Floor 01 · Immersive Deck</div>
+        <div class="simulator-text">
+          <p class="eyebrow">Immersive scroll deck</p>
+          <h2>Ride the cab. Every scroll advances a floor.</h2>
+          <p>
+            We built a live 3D shaft so you can feel the ascent. Each stage unlocks
+            different lighting, sound dampening, and service overlays—exactly how the
+            actual experience transitions from lobby calm to rooftop skybar.
+          </p>
+          <ul>
+            <li>Pinch-zoom parallax layers mimic glass + structure</li>
+            <li>AI service nodes glow when predictive care activates</li>
+            <li>Cab HUD reports live data: velocity, comfort, diagnostics</li>
+          </ul>
+        </div>
+        <div class="simulator-viewport">
+          <div class="sim-layers">
+            <div class="sim-layer grid"></div>
+            <div class="sim-layer glow"></div>
+            <div class="sim-layer particles"></div>
+          </div>
+          <div class="sim-shaft">
+            <div class="sim-floor" data-label="Lobby"></div>
+            <div class="sim-floor" data-label="Executive"></div>
+            <div class="sim-floor" data-label="Skydeck"></div>
+            <div class="sim-floor" data-label="Helipad"></div>
+          </div>
+          <div class="sim-cab">
+            <div class="sim-cab-inner">
+              <p class="label">Mode</p>
+              <span class="sim-mode">Feather Glide</span>
+              <p class="label">Velocity</p>
+              <span class="sim-velocity">0.0 m/s</span>
+            </div>
+          </div>
+          <div class="sim-overlay">
+            <div>
+              <p class="label">Ambient</p>
+              <span class="sim-ambient">Lunar dusk</span>
+            </div>
+            <div>
+              <p class="label">Diagnostics</p>
+              <span class="sim-diagnostics">All systems green</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="deck deck--systems" id="deck-systems" data-floor="Deck 01" data-floor-index="02" data-floor-name="Systems Control">
+        <div class="floor-label">Floor 02 · Systems Control</div>
+        <div class="deck-content">
+          <p class="eyebrow">Deck 01 · Systems</p>
+          <h2>Integrated elevator OS orchestrates every motion like light.</h2>
+          <p>
+            Our serial-parallel brain syncs drive, door, ambience, and safety to a
+            millisecond timeline. Edge sensors stream live diagnostics to our cloud
+            tower for predictive care.
+          </p>
+          <div class="holo-grid">
+            <article class="holo-card">
+              <span>01</span>
+              <h3>Quantum Smooth</h3>
+              <p>Variable-frequency drives auto-balance hydraulic and gearless.</p>
+            </article>
+            <article class="holo-card">
+              <span>02</span>
+              <h3>Ambient IQ</h3>
+              <p>Lighting + scent cues adjust to time, crowd mood, and brand DNA.</p>
+            </article>
+            <article class="holo-card">
+              <span>03</span>
+              <h3>Guardian AI</h3>
+              <p>Edge twins detect anomalies 30 days ahead for zero-downtime visits.</p>
+            </article>
+          </div>
+        </div>
+        <div class="deck-media">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80" alt="Control center" />
+          <div class="media-overlay">Integrated Serial & Parallel Controller</div>
+        </div>
+      </section>
+
+      <section class="deck deck--materials" data-floor="Deck 02" data-floor-index="03" data-floor-name="Materials Gallery">
+        <div class="floor-label">Floor 03 · Materials Gallery</div>
+        <div class="deck-media mosaic">
+          <figure>
+            <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80" alt="Metal mesh" />
+          </figure>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80" alt="Stone wall" />
+          </figure>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?auto=format&fit=crop&w=800&q=80" alt="Lighting concept" />
+          </figure>
+        </div>
+        <div class="deck-content">
+          <p class="eyebrow">Deck 02 · Materials & Lighting</p>
+          <h2>Signature material boards and ambient lighting palettes.</h2>
+          <ul class="feature-list">
+            <li>Bronze mesh, smoked mirror, and onyx panels curated per cabin.</li>
+            <li>Acoustic lamination + anti-bacterial coatings for healthcare.</li>
+            <li>Tunable-white ceiling halos with low-IR heat signature.</li>
+            <li>Handrail touch illumination with occupancy sensing.</li>
+          </ul>
+          <div class="cta-row">
+            <button class="cta primary">View finish library</button>
+            <button class="cta ghost">Request sample pack</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="deck deck--capsule" id="deck-capsules" data-floor="Deck 02" data-floor-index="04" data-floor-name="Capsule Atelier">
+        <div class="floor-label">Floor 04 · Capsule Atelier</div>
+        <div class="deck-media mosaic">
+          <figure>
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Capsule" />
+          </figure>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1472220625704-91e1462799b2?auto=format&fit=crop&w=800&q=80" alt="Glass cabin" />
+          </figure>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1518443895471-7d7f842f0db0?auto=format&fit=crop&w=800&q=80" alt="Lobby" />
+          </figure>
+        </div>
+        <div class="deck-content">
+          <p class="eyebrow">Deck 02 · Capsule façades</p>
+          <h2>Glass capsules that turn façades into kinetic sculptures.</h2>
+          <ul class="feature-list">
+            <li>360° panoramic glazing with electrochromic tint.</li>
+            <li>RGBW halo lighting syncs with façade content.</li>
+            <li>Signature finishes: bronze mesh, smoked mirror, onyx stone.</li>
+            <li>Destination control integrated with BMS + facial access.</li>
+          </ul>
+          <div class="cta-row">
+            <button class="cta primary">Preview capsules</button>
+            <button class="cta ghost">See material board</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="deck deck--innovation" data-floor="Deck 03" data-floor-index="05" data-floor-name="Performance Lab">
+        <div class="floor-label">Floor 05 · Performance Lab</div>
+        <div class="deck-content">
+          <p class="eyebrow">Deck 03 · Performance</p>
+          <h2>Precision specs for every vertical ambition.</h2>
+          <div class="spec-grid">
+            <article>
+              <p class="label">Capacity</p>
+              <h3>320 – 1600 kg</h3>
+              <p>Passenger, stretcher, automobile & freight modules.</p>
+            </article>
+            <article>
+              <p class="label">Speed</p>
+              <h3>0.5 – 3.0 m/s</h3>
+              <p>Hydraulic, gearless, MRL & linear drives.</p>
+            </article>
+            <article>
+              <p class="label">Energy reclaim</p>
+              <h3>18%</h3>
+              <p>Regenerative drives feed power back on descent.</p>
+            </article>
+            <article>
+              <p class="label">Footprint</p>
+              <h3>No-pit</h3>
+              <p>MRL solutions for heritage structures + villas.</p>
+            </article>
+          </div>
+          <ul class="feature-list">
+            <li>Dual-braking redundancy with smart rescue drive.</li>
+            <li>Ride-comfort tuning: jerk-limited curves and silent door ops.</li>
+            <li>Energy reclaim analytics with weekly reports to BMS.</li>
+            <li>Seismic and fire mode compliance with guided egress.</li>
+          </ul>
+        </div>
+        <div class="timeline">
+          <div class="timeline-step">
+            <span>Week 01</span>
+            <p>Experience mapping + lobby choreography.</p>
+          </div>
+          <div class="timeline-step">
+            <span>Week 04</span>
+            <p>Cabin prototyping with VR walkthrough.</p>
+          </div>
+          <div class="timeline-step">
+            <span>Week 08</span>
+            <p>Factory acceptance, remote IoT pairing.</p>
+          </div>
+          <div class="timeline-step">
+            <span>Week 12</span>
+            <p>On-site install, predictive care onboarding.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stories" id="stories" data-floor="Stories" data-floor-index="06" data-floor-name="Story Lounge">
+        <div class="floor-label">Floor 06 · Story Lounge</div>
+        <div class="section-heading">
+          <p class="eyebrow">Stories</p>
+          <h2>Future-forward partners speaking in motion.</h2>
+        </div>
+        <div class="shorts-slider-wrapper">
+          <button class="slider-btn slider-prev" aria-label="Previous video">‹</button>
+          <div class="shorts-slider">
+            <div class="shorts-track">
+              <div class="short-slide">
+                <iframe
+                  src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0&modestbranding=1"
+                  title="Architect insight"
+                  loading="lazy"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="short-slide">
+                <iframe
+                  src="https://www.youtube.com/embed/oV_ORHnKUc0?controls=0&modestbranding=1"
+                  title="Hospital partner"
+                  loading="lazy"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="short-slide">
+                <iframe
+                  src="https://www.youtube.com/embed/JGwWNGJdvx8?controls=0&modestbranding=1"
+                  title="Hospitality"
+                  loading="lazy"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <button class="slider-btn slider-next" aria-label="Next video">›</button>
+        </div>
+        <div class="quote-grid">
+          <article>
+            <p>
+              “Angel turned our lobby into a living sculpture. Guests film the
+              capsule every day.”
+            </p>
+            <span>Perch Residences · Gurugram</span>
+          </article>
+          <article>
+            <p>
+              “Predictive maintenance dashboards mean our hospital never pauses a
+              lift. Ever.”
+            </p>
+            <span>Apollo Specialty Care</span>
+          </article>
+          <article>
+            <p>
+              “The automotive elevator handles 4-ton SUVs with zero vibration.
+              Wild.”
+            </p>
+            <span>Autobahn Tower</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact-slab" data-floor="Skydeck" data-floor-index="07" data-floor-name="Skydeck Atelier">
+        <div class="floor-label">Floor 07 · Skydeck Atelier</div>
+        <div class="contact-card">
+          <p class="eyebrow">Skydeck session</p>
+          <h2>Book a vertical atelier.</h2>
+          <p>
+            Share your blueprint or idea. We’ll craft a holographic preview of your
+            elevator narrative within 72 hours.
+          </p>
+          <div class="contact-meta">
+            <p>Plot 411-A, Sector 68, IMT Faridabad</p>
+            <p>+91 98734 98314 · info@angelelevators.com</p>
+          </div>
+        </div>
+        <form class="contact-form">
+          <label>
+            Your name
+            <input type="text" placeholder="Architect / Developer" />
+          </label>
+          <label>
+            Email
+            <input type="email" placeholder="you@example.com" />
+          </label>
+          <label>
+            Phone
+            <input type="tel" placeholder="+91 90000 00000" />
+          </label>
+          <label>
+            Project type
+            <select>
+              <option>Luxury residence</option>
+              <option>Hospital / Healthcare</option>
+              <option>Hospitality</option>
+              <option>Corporate / Campus</option>
+            </select>
+          </label>
+          <label>
+            Notes
+            <textarea placeholder="Lobby concept, shaft size, vibe..."></textarea>
+          </label>
+          <button class="cta primary" type="submit">Send brief</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2025 Angel Elevators · Engineered in NCR · Serving Pan India</p>
+      <div class="footer-links">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Download brochure</a>
+      </div>
+    </footer>
+  </body>
+</html>
