@@ -802,6 +802,7 @@ p {
   backdrop-filter: blur(10px);
   will-change: transform, opacity;
   transform-style: preserve-3d;
+  transform: translateZ(0);
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   opacity: 1;
@@ -810,6 +811,8 @@ p {
   flex-direction: column;
   gap: 0.75rem;
   min-height: 220px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .spec-grid article:hover {
@@ -835,6 +838,8 @@ p {
   font-weight: 700;
   color: #ffffff;
   line-height: 1.15;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .spec-grid article > p:last-child {
@@ -843,6 +848,8 @@ p {
   line-height: 1.6;
   margin: 0;
   margin-top: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .timeline {
@@ -1663,6 +1670,14 @@ textarea {
   }
   .contact-slab {
     gap: var(--space-2xl);
+  }
+  .spec-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .spec-grid article {
+    padding: 1.75rem 1.5rem 2rem;
+    min-height: 200px;
   }
   h1 { font-size: clamp(var(--text-3xl), 8vw, var(--text-5xl)); }
   h2 { font-size: clamp(var(--text-2xl), 6vw, var(--text-4xl)); }

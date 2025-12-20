@@ -19,12 +19,15 @@ window.addEventListener("DOMContentLoaded", () => {
           start: "top bottom",
           end: "top 60%",
         scrub: true,
+        invalidateOnRefresh: true,
+        refreshPriority: 0,
+        markers: false
       },
       })
       .fromTo(
       section,
-        { y: 120, opacity: 0, filter: "blur(12px)" },
-        { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power3.out" }
+        { y: 120, opacity: 0, filter: "blur(12px)", force3D: true },
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power3.out", force3D: true }
     );
 
     ScrollTrigger.create({
@@ -33,6 +36,9 @@ window.addEventListener("DOMContentLoaded", () => {
       end: "bottom center",
       onEnter: () => updateFloor(section),
       onEnterBack: () => updateFloor(section),
+      invalidateOnRefresh: true,
+      refreshPriority: 1,
+      markers: false
     });
   });
 
@@ -89,11 +95,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const rect = card.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
     const y = ((event.clientY - rect.top) / rect.height - 0.5) * 12;
-    gsap.to(card, { rotateX: -y, rotateY: x, duration: 0.4 });
+    gsap.to(card, { rotateX: -y, rotateY: x, duration: 0.4, force3D: true });
   }
 
   function resetTilt(card) {
-    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5, ease: "power3.out" });
+    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5, ease: "power3.out", force3D: true });
   }
 
   const mosaicFigures = gsap.utils.toArray(".mosaic figure");
@@ -298,22 +304,25 @@ window.addEventListener("DOMContentLoaded", () => {
           start: "top 80%",
           end: "bottom 45%",
           scrub: true,
+          invalidateOnRefresh: true,
+          refreshPriority: 0,
+          markers: false
         },
       });
 
       if (content) {
         tl.fromTo(
           content,
-          { y: 80, opacity: 0, rotateX: 6, rotateY: angle },
-          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1 }
+          { y: 80, opacity: 0, rotateX: 6, rotateY: angle, force3D: true },
+          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1, force3D: true }
         );
       }
 
       if (media) {
         tl.fromTo(
           media,
-          { y: 120, opacity: 0, rotateX: -6, rotateY: -angle },
-          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1 },
+          { y: 120, opacity: 0, rotateX: -6, rotateY: -angle, force3D: true },
+          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1, force3D: true },
           0.05
         );
       }
@@ -380,23 +389,9 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function statsPanorama() {
-    const specCards = gsap.utils.toArray(".spec-grid article");
-    if (specCards.length) {
-      gsap.from(specCards, {
-        y: 70,
-        opacity: 0,
-        rotateY: -10,
-        stagger: 0.15,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".spec-grid",
-          start: "top 85%",
-          once: true,
-        },
-      });
-    }
-
+    // Spec cards animation moved to specGridDepth() to avoid conflicts
+    // Only animating timeline steps here
+    
     const timelineSteps = gsap.utils.toArray(".timeline-step");
     if (timelineSteps.length) {
       gsap.from(timelineSteps, {
@@ -406,10 +401,14 @@ window.addEventListener("DOMContentLoaded", () => {
         stagger: 0.12,
         duration: 1.2,
         ease: "power3.out",
+        force3D: true,
         scrollTrigger: {
           trigger: ".timeline",
           start: "top 90%",
           once: true,
+          invalidateOnRefresh: true,
+          refreshPriority: -1,
+          markers: false
         },
       });
     }
@@ -424,20 +423,23 @@ window.addEventListener("DOMContentLoaded", () => {
           start: "top 80%",
           end: "top 40%",
           scrub: true,
+          invalidateOnRefresh: true,
+          refreshPriority: 0,
+          markers: false
         },
       });
 
       tl.fromTo(
         section,
-        { opacity: 0.85, scale: 0.98 },
-        { opacity: 1, scale: 1 }
+        { opacity: 0.85, scale: 0.98, force3D: true },
+        { opacity: 1, scale: 1, force3D: true }
       );
 
       if (label) {
         tl.fromTo(
           label,
-          { y: -20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 },
+          { y: -20, opacity: 0, force3D: true },
+          { y: 0, opacity: 1, duration: 0.6, force3D: true },
           0
         );
       }
@@ -860,7 +862,8 @@ window.addEventListener("DOMContentLoaded", () => {
           rotateX: 25,
           rotateY: angleY,
           scale: 0.85,
-          transformPerspective: 1200
+          transformPerspective: 1200,
+          force3D: true
         },
         {
           y: 0,
@@ -870,10 +873,14 @@ window.addEventListener("DOMContentLoaded", () => {
           scale: 1,
           duration: 1.2,
           ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: spec,
             start: "top 85%",
             once: true,
+            invalidateOnRefresh: true,
+            refreshPriority: -1,
+            markers: false
           },
         }
       );
