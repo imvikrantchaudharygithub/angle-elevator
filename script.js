@@ -12,6 +12,10 @@ window.addEventListener("DOMContentLoaded", () => {
   const doorFloorLabel = document.querySelector(".door-floor-label");
 
   sections.forEach((section, index) => {
+    if (section.classList.contains("simulator")) {
+      return;
+    }
+    
     gsap
       .timeline({
       scrollTrigger: {
@@ -19,15 +23,12 @@ window.addEventListener("DOMContentLoaded", () => {
           start: "top bottom",
           end: "top 60%",
         scrub: true,
-        invalidateOnRefresh: true,
-        refreshPriority: 0,
-        markers: false
       },
       })
       .fromTo(
       section,
-        { y: 120, opacity: 0, filter: "blur(12px)", force3D: true },
-        { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power3.out", force3D: true }
+        { y: 120, opacity: 0, filter: "blur(12px)" },
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power3.out" }
     );
 
     ScrollTrigger.create({
@@ -36,9 +37,6 @@ window.addEventListener("DOMContentLoaded", () => {
       end: "bottom center",
       onEnter: () => updateFloor(section),
       onEnterBack: () => updateFloor(section),
-      invalidateOnRefresh: true,
-      refreshPriority: 1,
-      markers: false
     });
   });
 
@@ -95,11 +93,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const rect = card.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
     const y = ((event.clientY - rect.top) / rect.height - 0.5) * 12;
-    gsap.to(card, { rotateX: -y, rotateY: x, duration: 0.4, force3D: true });
+    gsap.to(card, { rotateX: -y, rotateY: x, duration: 0.4 });
   }
 
   function resetTilt(card) {
-    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5, ease: "power3.out", force3D: true });
+    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5, ease: "power3.out" });
   }
 
   const mosaicFigures = gsap.utils.toArray(".mosaic figure");
@@ -164,21 +162,35 @@ window.addEventListener("DOMContentLoaded", () => {
     let currentState = -1;
 
     ScrollTrigger.matchMedia({
-      "(min-width: 768px)": () => {
+      "(min-width: 961px)": () => {
+        if (!cab || !gridLayer || !particles) return;
+        
+        gsap.set([cab, particles], { clearProps: "transform" });
+        
         const simTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: ".simulator",
-            start: "top top",
-            end: "+=220%",
+            start: "top 20%",
+            end: "+=100%",
             scrub: true,
-            pin: true,
             onUpdate: ({ progress }) => updateSimState(progress),
           },
         });
 
-        simTimeline.to(cab, { yPercent: -250, ease: "none" });
-        simTimeline.to(gridLayer, { backgroundPositionY: -280, ease: "none" }, 0);
-        simTimeline.to(particles, { yPercent: -40, ease: "none" }, 0);
+        simTimeline.fromTo(cab, 
+          { y: "0%" }, 
+          { y: "-250%", ease: "none", force3D: true }
+        );
+        simTimeline.fromTo(gridLayer, 
+          { backgroundPositionY: "0px" }, 
+          { backgroundPositionY: "-280px", ease: "none", force3D: true }, 
+          0
+        );
+        simTimeline.fromTo(particles, 
+          { y: "0%" }, 
+          { y: "-40%", ease: "none", force3D: true }, 
+          0
+        );
 
         return () => simTimeline.kill();
       },
@@ -304,25 +316,22 @@ window.addEventListener("DOMContentLoaded", () => {
           start: "top 80%",
           end: "bottom 45%",
           scrub: true,
-          invalidateOnRefresh: true,
-          refreshPriority: 0,
-          markers: false
         },
       });
 
       if (content) {
         tl.fromTo(
           content,
-          { y: 80, opacity: 0, rotateX: 6, rotateY: angle, force3D: true },
-          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1, force3D: true }
+          { y: 80, opacity: 0, rotateX: 6, rotateY: angle },
+          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1 }
         );
       }
 
       if (media) {
         tl.fromTo(
           media,
-          { y: 120, opacity: 0, rotateX: -6, rotateY: -angle, force3D: true },
-          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1, force3D: true },
+          { y: 120, opacity: 0, rotateX: -6, rotateY: -angle },
+          { y: 0, opacity: 1, rotateX: 0, rotateY: 0, duration: 1 },
           0.05
         );
       }
@@ -389,9 +398,23 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function statsPanorama() {
-    // Spec cards animation moved to specGridDepth() to avoid conflicts
-    // Only animating timeline steps here
-    
+    const specCards = gsap.utils.toArray(".spec-grid article");
+    if (specCards.length) {
+      gsap.from(specCards, {
+        y: 70,
+        opacity: 0,
+        rotateY: -10,
+        stagger: 0.15,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".spec-grid",
+          start: "top 85%",
+          once: true,
+        },
+      });
+    }
+
     const timelineSteps = gsap.utils.toArray(".timeline-step");
     if (timelineSteps.length) {
       gsap.from(timelineSteps, {
@@ -401,14 +424,10 @@ window.addEventListener("DOMContentLoaded", () => {
         stagger: 0.12,
         duration: 1.2,
         ease: "power3.out",
-        force3D: true,
         scrollTrigger: {
           trigger: ".timeline",
           start: "top 90%",
           once: true,
-          invalidateOnRefresh: true,
-          refreshPriority: -1,
-          markers: false
         },
       });
     }
@@ -423,23 +442,20 @@ window.addEventListener("DOMContentLoaded", () => {
           start: "top 80%",
           end: "top 40%",
           scrub: true,
-          invalidateOnRefresh: true,
-          refreshPriority: 0,
-          markers: false
         },
       });
 
       tl.fromTo(
         section,
-        { opacity: 0.85, scale: 0.98, force3D: true },
-        { opacity: 1, scale: 1, force3D: true }
+        { opacity: 0.85, scale: 0.98 },
+        { opacity: 1, scale: 1 }
       );
 
       if (label) {
         tl.fromTo(
           label,
-          { y: -20, opacity: 0, force3D: true },
-          { y: 0, opacity: 1, duration: 0.6, force3D: true },
+          { y: -20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6 },
           0
         );
       }
@@ -454,7 +470,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!sim || !cab || !shaft) return;
 
     ScrollTrigger.matchMedia({
-      "(min-width: 768px)": () => {
+      "(min-width: 768px) and (max-width: 960px)": () => {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sim,
@@ -851,19 +867,31 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!specGrid) return;
 
     const specs = gsap.utils.toArray(specGrid.querySelectorAll("article"));
+    
+    // Set initial positions to prevent overlap
+    gsap.set(specs, {
+      y: 0,
+      opacity: 0,
+      rotateX: 0,
+      rotateY: 0,
+      scale: 0.95,
+      force3D: true
+    });
+    
     specs.forEach((spec, index) => {
-      const angleY = (index % 2 === 0 ? 1 : -1) * 20;
+      const angleY = (index % 2 === 0 ? 1 : -1) * 15;
       
       gsap.fromTo(
         spec,
         { 
-          y: 100, 
+          y: 40, 
           opacity: 0,
-          rotateX: 25,
+          rotateX: 8,
           rotateY: angleY,
-          scale: 0.85,
+          scale: 0.95,
           transformPerspective: 1200,
-          force3D: true
+          force3D: true,
+          immediateRender: false
         },
         {
           y: 0,
@@ -871,11 +899,11 @@ window.addEventListener("DOMContentLoaded", () => {
           rotateX: 0,
           rotateY: 0,
           scale: 1,
-          duration: 1.2,
-          ease: "power3.out",
+          duration: 0.8,
+          ease: "power2.out",
           force3D: true,
           scrollTrigger: {
-            trigger: spec,
+            trigger: specGrid,
             start: "top 85%",
             once: true,
             invalidateOnRefresh: true,
