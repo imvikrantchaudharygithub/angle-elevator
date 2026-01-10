@@ -2152,7 +2152,7 @@ textarea {
     left: auto;
     right: var(--space-sm);
     top: auto;
-    bottom: var(--space-sm);
+    bottom: 70px;
     transform: none;
     padding: 0.4rem 0.45rem;
     border-radius: 10px;
