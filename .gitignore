@@ -34,4 +34,7 @@ logs
 *.log
 npm-debug.log*
 
-# Security: Removed sensitive files from history
+# Sensitive files - Google OAuth credentials
+client_secret_*.json
+*client_secret*.json
+*.googleusercontent.com.json
