@@ -34,3 +34,4 @@ logs
 *.log
 npm-debug.log*
 
+# Security: Removed sensitive files from history
