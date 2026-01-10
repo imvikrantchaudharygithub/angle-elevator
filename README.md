@@ -1,6 +1,6 @@
-# Angel Elevators
+# Angel Elevators & Escalators
 
-Modern, award-winning website for Angel Elevators - showcasing luxury elevator systems with advanced 3D animations and immersive scroll experiences.
+Professional website for Angel Elevators & Escalators - showcasing passenger lifts, escalators, and vertical transportation solutions with advanced 3D animations and immersive scroll experiences.
 
 ## 🚀 Features
 
@@ -35,12 +35,14 @@ Visit: [Angel Elevators](https://your-domain.com)
 
 ## 📞 Contact
 
-**Angel Elevators**  
-Plot 411-A, Sector 68, IMT Faridabad  
-📧 info@angelelevators.com  
-📱 +91 98734 98314
+**Angel Elevators & Escalators**  
+**Branch Office:** 14/5, Janco Complex, Mathura Road, Sector-31, Near Mewla Maharajpur Metro Station, Faridabad, Haryana-121010  
+**Head Office:** RZ-7A, Syndicate Enclave, Raghu Nagar, Dabri, New Delhi-110045  
+📧 angelelevatorsescalators@gmail.com  
+📱 +91 7838307172, +91 7838277172  
+**GSTIN:** 07DGEPR1642Q1ZU
 
 ---
 
-© 2025 Angel Elevators · Engineered in NCR · Serving Pan India
+© 2025 Angel Elevators & Escalators · Your Safety Our Priority · Serving Pan India
 

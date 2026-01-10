@@ -12,10 +12,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const doorFloorLabel = document.querySelector(".door-floor-label");
 
   sections.forEach((section, index) => {
-    if (section.classList.contains("simulator")) {
-      return;
-    }
-    
     gsap
       .timeline({
       scrollTrigger: {
@@ -153,44 +149,30 @@ window.addEventListener("DOMContentLoaded", () => {
     const diagnosticsEl = document.querySelector(".sim-diagnostics");
 
     const simStates = [
-      { progress: 0, mode: "Feather Glide", velocity: "0.3 m/s", ambient: "Lunar dusk", diagnostics: "All systems green" },
-      { progress: 0.33, mode: "Skyline Drift", velocity: "0.8 m/s", ambient: "Prismatic dawn", diagnostics: "Energy reclaim 12%" },
-      { progress: 0.66, mode: "Helix Sprint", velocity: "1.5 m/s", ambient: "Solar bloom", diagnostics: "Guardian AI engaged" },
-      { progress: 1, mode: "Cloud Dock", velocity: "0.0 m/s", ambient: "Stratosphere calm", diagnostics: "Doors opening" },
+      { progress: 0, mode: "Normal Operation", velocity: "0.5 m/s", ambient: "Operational", diagnostics: "All systems active" },
+      { progress: 0.33, mode: "Ascending", velocity: "1.0 m/s", ambient: "In Transit", diagnostics: "Safety systems engaged" },
+      { progress: 0.66, mode: "Full Speed", velocity: "1.5 m/s", ambient: "Optimal", diagnostics: "All systems normal" },
+      { progress: 1, mode: "Arriving", velocity: "0.0 m/s", ambient: "At Floor", diagnostics: "Doors opening" },
     ];
 
     let currentState = -1;
 
     ScrollTrigger.matchMedia({
-      "(min-width: 961px)": () => {
-        if (!cab || !gridLayer || !particles) return;
-        
-        gsap.set([cab, particles], { clearProps: "transform" });
-        
+      "(min-width: 768px)": () => {
         const simTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: ".simulator",
-            start: "top 20%",
-            end: "+=100%",
+            start: "top top",
+            end: "+=220%",
             scrub: true,
+            pin: true,
             onUpdate: ({ progress }) => updateSimState(progress),
           },
         });
 
-        simTimeline.fromTo(cab, 
-          { y: "0%" }, 
-          { y: "-250%", ease: "none", force3D: true }
-        );
-        simTimeline.fromTo(gridLayer, 
-          { backgroundPositionY: "0px" }, 
-          { backgroundPositionY: "-280px", ease: "none", force3D: true }, 
-          0
-        );
-        simTimeline.fromTo(particles, 
-          { y: "0%" }, 
-          { y: "-40%", ease: "none", force3D: true }, 
-          0
-        );
+        simTimeline.to(cab, { yPercent: -250, ease: "none" });
+        simTimeline.to(gridLayer, { backgroundPositionY: -280, ease: "none" }, 0);
+        simTimeline.to(particles, { yPercent: -40, ease: "none" }, 0);
 
         return () => simTimeline.kill();
       },
@@ -470,7 +452,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!sim || !cab || !shaft) return;
 
     ScrollTrigger.matchMedia({
-      "(min-width: 768px) and (max-width: 960px)": () => {
+      "(min-width: 768px)": () => {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sim,
@@ -569,21 +551,39 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     if (contactForm) {
-      const formElements = gsap.utils.toArray(".contact-form label, .contact-form button");
-      gsap.from(formElements, {
-        y: 80,
-        opacity: 0,
-        rotateX: 12,
-        stagger: 0.1,
-        duration: 1.2,
-        ease: "power3.out",
-        transformPerspective: 1000,
-        scrollTrigger: {
-          trigger: contactForm,
-          start: "top 80%",
-          once: true,
-        },
-      });
+      const formElements = gsap.utils.toArray(".contact-form label");
+      const submitButton = document.querySelector(".contact-form button, .contact-submit-btn");
+      
+      // Animate form labels only
+      if (formElements.length > 0) {
+        gsap.from(formElements, {
+          y: 80,
+          opacity: 0,
+          rotateX: 12,
+          stagger: 0.1,
+          duration: 1.2,
+          ease: "power3.out",
+          transformPerspective: 1000,
+          scrollTrigger: {
+            trigger: contactForm,
+            start: "top 80%",
+            once: true,
+          },
+        });
+      }
+      
+      // Ensure submit button has no transform
+      if (submitButton) {
+        gsap.set(submitButton, {
+          transform: "none",
+          clearProps: "transform"
+        });
+        // Also set inline style to override any GSAP transforms
+        submitButton.style.transform = "none";
+        submitButton.style.translate = "none";
+        submitButton.style.rotate = "none";
+        submitButton.style.scale = "none";
+      }
     }
   }
 
@@ -867,31 +867,19 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!specGrid) return;
 
     const specs = gsap.utils.toArray(specGrid.querySelectorAll("article"));
-    
-    // Set initial positions to prevent overlap
-    gsap.set(specs, {
-      y: 0,
-      opacity: 0,
-      rotateX: 0,
-      rotateY: 0,
-      scale: 0.95,
-      force3D: true
-    });
-    
     specs.forEach((spec, index) => {
       const angleY = (index % 2 === 0 ? 1 : -1) * 15;
       
       gsap.fromTo(
         spec,
         { 
-          y: 40, 
+          y: 60, 
           opacity: 0,
-          rotateX: 8,
+          rotateX: 12,
           rotateY: angleY,
           scale: 0.95,
           transformPerspective: 1200,
-          force3D: true,
-          immediateRender: false
+          force3D: true
         },
         {
           y: 0,
@@ -904,7 +892,7 @@ window.addEventListener("DOMContentLoaded", () => {
           force3D: true,
           scrollTrigger: {
             trigger: specGrid,
-            start: "top 85%",
+            start: "top 80%",
             once: true,
             invalidateOnRefresh: true,
             refreshPriority: -1,
@@ -1128,4 +1116,298 @@ window.addEventListener("DOMContentLoaded", () => {
     
     updateButtonStates();
   }
+
+  // Google Sheets Form Integration
+  initContactForm();
 });
+
+  // Google Sheets Form Submission Handler
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const btnText = submitBtn?.querySelector(".btn-text");
+  const btnLoader = submitBtn?.querySelector(".btn-loader");
+  const formMessage = document.getElementById("formMessage");
+
+  // IMPORTANT: Replace this URL with your Google Apps Script Web App URL
+  // You'll get this URL after deploying the Apps Script (see google-apps-script.js)
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwgDEUjzj2xgrdjCDEGHRIz1qQMhRZEbAtYL4A2pWbkIlK0Qb4ytn01RH3lKPhG6Y4c9Q/exec"; // Add your Apps Script Web App URL here
+
+  if (!form) {
+    console.error("Contact form not found!");
+    return;
+  }
+  
+  // Ensure button is visible
+  if (submitBtn) {
+    submitBtn.style.display = "flex";
+    submitBtn.style.visibility = "visible";
+    submitBtn.style.opacity = "1";
+    console.log("Submit button found and made visible:", submitBtn);
+  } else {
+    console.error("Submit button not found! Check HTML for #submitBtn");
+  }
+
+  // Validation functions
+  function validateName(name) {
+    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+    return name.trim().length >= 2 && nameRegex.test(name.trim());
+  }
+
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email.trim());
+  }
+
+  function validatePhone(phone) {
+    // Remove all non-digit characters
+    const cleaned = phone.replace(/\D/g, '');
+    // Must be exactly 10 digits
+    return cleaned.length === 10;
+  }
+
+  function validateProjectType(projectType) {
+    return projectType !== '' && projectType !== null;
+  }
+
+  function validateNotes(notes) {
+    // Notes is optional, but if filled, should have at least 5 characters
+    return notes.trim().length === 0 || notes.trim().length >= 5;
+  }
+
+  // Function to update field validation state
+  function updateFieldValidation(field, isValid) {
+    field.classList.remove('valid', 'invalid');
+    const value = field.tagName === 'SELECT' ? field.value : field.value.trim();
+    if (value !== '' || field.tagName === 'SELECT') {
+      field.classList.add(isValid ? 'valid' : 'invalid');
+    }
+  }
+
+  // Get form fields
+  const nameField = document.getElementById("name");
+  const emailField = document.getElementById("email");
+  const phoneField = document.getElementById("phone");
+  const projectTypeField = document.getElementById("projectType");
+  const notesField = document.getElementById("notes");
+
+  // Add validation on input/change events
+  if (nameField) {
+    nameField.addEventListener('input', function() {
+      const isValid = validateName(this.value);
+      updateFieldValidation(this, isValid);
+    });
+    nameField.addEventListener('blur', function() {
+      if (this.value.trim() !== '') {
+        const isValid = validateName(this.value);
+        updateFieldValidation(this, isValid);
+      }
+    });
+  }
+
+  if (emailField) {
+    emailField.addEventListener('input', function() {
+      const isValid = validateEmail(this.value);
+      updateFieldValidation(this, isValid);
+    });
+    emailField.addEventListener('blur', function() {
+      if (this.value.trim() !== '') {
+        const isValid = validateEmail(this.value);
+        updateFieldValidation(this, isValid);
+      }
+    });
+  }
+
+  if (phoneField) {
+    phoneField.addEventListener('input', function() {
+      const isValid = validatePhone(this.value);
+      updateFieldValidation(this, isValid);
+    });
+    phoneField.addEventListener('blur', function() {
+      if (this.value.trim() !== '') {
+        const isValid = validatePhone(this.value);
+        updateFieldValidation(this, isValid);
+      }
+    });
+  }
+
+  if (projectTypeField) {
+    projectTypeField.addEventListener('change', function() {
+      const isValid = validateProjectType(this.value);
+      updateFieldValidation(this, isValid);
+    });
+  }
+
+  if (notesField) {
+    notesField.addEventListener('input', function() {
+      const isValid = validateNotes(this.value);
+      updateFieldValidation(this, isValid);
+    });
+    notesField.addEventListener('blur', function() {
+      if (this.value.trim() !== '') {
+        const isValid = validateNotes(this.value);
+        updateFieldValidation(this, isValid);
+      }
+    });
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Check if Google Script URL is configured
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.trim() === "") {
+      showMessage("Google Sheets integration not configured. Please see SETUP_INSTRUCTIONS.md for step-by-step setup guide.", "error");
+      console.error("Google Apps Script URL not configured. Follow these steps:\n1. Open your Google Sheet\n2. Go to Extensions > Apps Script\n3. Paste code from google-apps-script.js\n4. Deploy as Web App\n5. Copy URL and paste in script.js at line 1116");
+      return;
+    }
+
+    // Get form values
+    const formData = {
+      name: document.getElementById("name").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      projectType: document.getElementById("projectType").value,
+      notes: document.getElementById("notes").value.trim(),
+    };
+
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.projectType) {
+      showMessage("Please fill in all required fields.", "error");
+      return;
+    }
+
+    // Validate phone number - must be exactly 10 digits
+    const phoneCleaned = formData.phone.replace(/\D/g, '');
+    if (phoneCleaned.length !== 10) {
+      showMessage("Phone number must be exactly 10 digits.", "error");
+      // Highlight the phone field
+      if (phoneField) {
+        phoneField.classList.remove('valid');
+        phoneField.classList.add('invalid');
+        phoneField.focus();
+      }
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      showMessage("Please enter a valid email address.", "error");
+      return;
+    }
+
+    // Get current date and time
+    const now = new Date();
+    const date = now.toISOString().split("T")[0]; // YYYY-MM-DD
+    const time = now.toTimeString().split(" ")[0]; // HH:MM:SS
+
+    // Prepare data for Google Sheets
+    const sheetData = {
+      date: date,
+      time: time,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      projectType: formData.projectType,
+      notes: formData.notes || "",
+    };
+
+    // Show loading state
+    setLoadingState(true);
+
+    try {
+      // Method 1: Try with CORS first (if Apps Script is configured correctly)
+      let success = false;
+      
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(sheetData),
+        });
+
+        // Try to read response
+        if (response.ok) {
+          const result = await response.json();
+          if (result && result.success !== false) {
+            success = true;
+          }
+        }
+      } catch (corsError) {
+        // If CORS error, use no-cors mode as fallback
+        console.log("CORS error detected, using no-cors mode:", corsError);
+        
+        try {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sheetData),
+          });
+          
+          // With no-cors, we can't verify, but assume success after delay
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          success = true;
+        } catch (noCorsError) {
+          console.error("Submission failed even with no-cors:", noCorsError);
+          throw new Error("Failed to submit form data");
+        }
+      }
+
+      if (success) {
+        // Show success message
+        showMessage("Thank you! Your inquiry has been submitted successfully. We'll get back to you soon.", "success");
+
+        // Reset form
+        form.reset();
+
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          hideMessage();
+        }, 5000);
+      } else {
+        throw new Error("Submission failed");
+      }
+
+    } catch (error) {
+      console.error("Form submission error:", error);
+      showMessage("There was an error submitting your form. Please check your Google Apps Script deployment and try again.", "error");
+      
+      // Hide error message after 8 seconds
+      setTimeout(() => {
+        hideMessage();
+      }, 8000);
+    } finally {
+      setLoadingState(false);
+    }
+  });
+
+  function setLoadingState(isLoading) {
+    if (submitBtn) {
+      submitBtn.disabled = isLoading;
+    }
+    if (btnText) {
+      btnText.style.display = isLoading ? "none" : "inline";
+    }
+    if (btnLoader) {
+      btnLoader.style.display = isLoading ? "inline" : "none";
+    }
+  }
+
+  function showMessage(message, type) {
+    if (!formMessage) return;
+    formMessage.textContent = message;
+    formMessage.className = `form-message show ${type}`;
+    formMessage.setAttribute("role", "alert");
+  }
+
+  function hideMessage() {
+    if (!formMessage) return;
+    formMessage.classList.remove("show");
+    formMessage.textContent = "";
+  }
+}
