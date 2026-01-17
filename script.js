@@ -36,6 +36,8 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const floorPanel = document.querySelector(".floor-panel");
+
   function updateFloor(section) {
     if (!section) return;
     const label = section.dataset.floorName || section.dataset.floor || "Floor";
@@ -61,6 +63,14 @@ window.addEventListener("DOMContentLoaded", () => {
     if (railProgress && floorIndex >= 0) {
       const progress = (floorIndex + 1) / sections.length;
       railProgress.style.height = `${progress * 100}%`;
+    }
+
+    if (floorPanel) {
+      if (numericLabel === "00") {
+        floorPanel.classList.remove("visible");
+      } else {
+        floorPanel.classList.add("visible");
+      }
     }
   }
 

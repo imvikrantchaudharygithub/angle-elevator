@@ -1609,7 +1609,14 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.35em;
   font-size: var(--text-xs);
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, opacity 0.4s ease, visibility 0.4s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.floor-panel.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .floor-panel:hover {
