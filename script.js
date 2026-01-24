@@ -962,7 +962,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
-    
+
     function updateSlider() {
       const translateX = -currentIndex * 100;
       track.style.transform = `translateX(${translateX}%)`;
@@ -970,6 +970,26 @@ window.addEventListener("DOMContentLoaded", () => {
       // Update button states
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === totalSlides - 1;
+
+      // Handle native video autoplay
+      const allVideos = track.querySelectorAll('video');
+      const activeSlide = slides[currentIndex];
+      const activeVideo = activeSlide?.querySelector('video');
+
+      // Pause all videos and reset to start
+      allVideos.forEach((video) => {
+        video.pause();
+        video.currentTime = 0;
+      });
+
+      // Play the active video (muted for autoplay)
+      if (activeVideo) {
+        activeVideo.muted = true;
+        activeVideo.play().catch((err) => {
+          // Autoplay may be blocked by browser policy
+          console.log('Autoplay prevented:', err);
+        });
+      }
     }
     
     function goToSlide(index) {

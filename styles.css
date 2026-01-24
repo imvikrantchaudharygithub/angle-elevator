@@ -1109,12 +1109,15 @@ p {
   width: 100%;
 }
 
-.short-slide iframe {
+.short-slide iframe,
+.native-video {
   width: 100%;
   aspect-ratio: 9 / 16;
   border: none;
   border-radius: 24px;
   display: block;
+  object-fit: cover;
+  background: #000;
 }
 
 .slider-btn {
