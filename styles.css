@@ -1473,12 +1473,20 @@ p {
 
 .footer-links a {
   transition: color 0.3s ease, transform 0.2s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .footer-links a:hover {
   color: var(--accent);
   transform: translateY(-2px);
+}
+
+.footer-links .social-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .cta {
